@@ -71,4 +71,6 @@ class AR_Interface
     void clearTFT(uint16_t);
     //виведення статичної інформації
     void drawStatic(uint8_t);
+    //виведення NUID
+    void printNIUDinfo(byte*, String*);
 };

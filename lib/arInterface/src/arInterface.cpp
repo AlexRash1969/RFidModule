@@ -1,5 +1,5 @@
 /*
-  розмір екрану 320 х 480
+  розмір екрану 240 х 320
 */
 #include "arInterface.h"
 
@@ -17,9 +17,9 @@ void AR_Interface::tftInit(uint8_t aspect)
 {
   uint16_t ID = _tft->readID();
   _tft->begin(ID);
-  _tft->setRotation(aspect);   //встановлення орієнтації зображення на екрані (0-4)
-  _tft->fillScreen(BLACK);     //заливка екрану чорним
-  _tft->cp437(true);           //для кирилизації бібліотеки Adafruit-GFX
+  _tft->setRotation(aspect); //встановлення орієнтації зображення на екрані (0-4)
+  _tft->fillScreen(BLACK);   //заливка екрану чорним
+  _tft->cp437(true);         //для кирилизації бібліотеки Adafruit-GFX
 }
 
 void AR_Interface::drawStatic(uint8_t countPlayer)
@@ -29,9 +29,38 @@ void AR_Interface::drawStatic(uint8_t countPlayer)
   smartPrint(8, 26, 1, YELLOW, "RFiD terminal");
 
   _tft->setFont(&FreeMonoBold9pt7b);
+  _tft->fillRect(0, 300, 240, 20, BLUE);
   smartPrint(14, 314, 1, GREEN, "BMY v0.0 c2021-2022");
 }
 
+void AR_Interface::printNIUDinfo(byte *nuidPICC, String *info)
+{
+  //змінні кординат для синхронного пересування пов'язаних об'єктів (тексту і графіки)
+  uint8_t  x = 4;
+  uint16_t y = 85;
+  _tft->setFont(&FreeSerifBold18pt7b);
+  //точка відліку - ліва верхня
+  _tft->fillRoundRect(2, y - 27, 236, 76, 5, WHITE);
+  _tft->fillRoundRect(2, y - 27 + 95, 236, 36, 5, WHITE);
+  _tft->fillRoundRect(2, y - 27 + 150, 236, 36, 5, WHITE);
+  smartPrint(x, y, 1, MAGENTA, info[0]);
+  smartPrint(x, y + 40, 1, MAGENTA, info[1]);
+  smartPrint(x, y + 95, 1, MAGENTA, info[2]);
+  smartPrint(x, y + 150, 1, MAGENTA, info[3]);
+
+  String tmpNUID = "NUID: ";
+  for (byte i = 0; i < 4; i++)
+  {
+    String tmp = String(nuidPICC[i], HEX);
+    tmp = tmp.length() < 2 ? "0" + tmp : tmp;
+    tmp += " ";
+    tmpNUID += tmp;
+  }
+  tmpNUID.toUpperCase();
+  _tft->setFont(&FreeSerifBold12pt7b);
+  _tft->fillRect(0, 270, 240, 18, BLACK);
+  smartPrint(16, 286, 1, CYAN, tmpNUID);
+}
 
 void AR_Interface::procMyRect(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t r, uint16_t colour, uint8_t wLine)
 {
