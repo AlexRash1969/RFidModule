@@ -43,10 +43,10 @@ void AR_Interface::printNIUDinfo(byte *nuidPICC, String *info)
   _tft->fillRoundRect(2, y - 27, 236, 76, 5, WHITE);
   _tft->fillRoundRect(2, y - 27 + 95, 236, 36, 5, WHITE);
   _tft->fillRoundRect(2, y - 27 + 150, 236, 36, 5, WHITE);
-  smartPrint(x, y, 1, MAGENTA, info[0]);
-  smartPrint(x, y + 40, 1, MAGENTA, info[1]);
-  smartPrint(x, y + 95, 1, MAGENTA, info[2]);
-  smartPrint(x, y + 150, 1, MAGENTA, info[3]);
+  smartPrint(x, y, 1, PURPLE, info[0]);
+  smartPrint(x, y + 40, 1, PURPLE, info[1]);
+  smartPrint(x, y + 95, 1, PURPLE, info[2]);
+  smartPrint(x, y + 150, 1, PURPLE, info[3]);
 
   String tmpNUID = "NUID: ";
   for (byte i = 0; i < 4; i++)
